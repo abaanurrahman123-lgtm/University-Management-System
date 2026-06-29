@@ -2,10 +2,6 @@ from utils import *
 
 #below are helper functions that can be re-used and reduce the lines of code
 
-#---------------------------------------------------------------------------------------------------------------
-#Administrator Part
-
-
 # Adding Functions
 
 def add_course():
@@ -344,12 +340,8 @@ def admin_menu():
             print("Invalid input.")
 
 
-
-
-
-
 #---------------------------------------------------------------------------------------------------------------------
-#Fahad Fikri - Lecturer Part
+#Lecturer Part
 
 
 # reads modules from file for a specific lecturer
