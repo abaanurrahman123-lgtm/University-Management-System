@@ -1,6 +1,6 @@
 from utils import *
-
-#below are helper functions that can be re-used and reduce the lines of code
+from config import *
+from file_manager import *
 
 # Adding Functions
 
@@ -21,7 +21,7 @@ def add_course():
 
     course = f"{course_id}, {course_name}, {course_credit}"
 
-    append_file(course,"courses.txt")
+    append_file(course,COURSES_FILE)
     print("Course added successfully.")
 
     # option to do it again or go back to menu
@@ -40,7 +40,7 @@ def add_student():
 
     student = f"{student_id}, {student_name}, {student_course}, {student_contact}, {student_email}, {student_birthday}"
 
-    append_file(student, "students.txt")
+    append_file(student, STUDENTS_FILE)
     print("Student added successfully.")
 
     # option to do it again or go back to menu
@@ -56,7 +56,7 @@ def add_lecturer():
 
     lecturer = f"{lecturer_id}, {lecturer_name}, {lecturer_contact}"
 
-    append_file(lecturer, "lecturers.txt")
+    append_file(lecturer, LECTURERS_FILE)
     print("Lecturer added successfully.")
 
     # option to do it again or go back to menu
@@ -75,7 +75,7 @@ def add_module():
     module = f"{module_id}, {module_name}, {course_id}"
 
 
-    append_file(module, "modules.txt")
+    append_file(module, MODULES_FILE)
     print("Module added successfully.")
 
     # option to do it again or go back to menu
@@ -87,7 +87,7 @@ def add_module():
 def remove_student():
     function_title = f"Remove a Student"
     print(f"---{function_title}---\n")
-    remove_entity("Student", "students.txt")
+    remove_entity("Student", STUDENTS_FILE)
 
     continue_menu(function_title, admin_student_menu, remove_student)
 
@@ -95,7 +95,7 @@ def remove_student():
 def remove_lecturer():
     function_title = "Remove a Lecturer"
     print(f"---{function_title}---\n")
-    remove_entity("Lecturer", "lecturers.txt")
+    remove_entity("Lecturer", LECTURERS_FILE)
 
     continue_menu(function_title, admin_lecturer_menu, remove_lecturer)
 
@@ -103,7 +103,7 @@ def remove_lecturer():
 def remove_course(): #NEW ADDITION
     function_title = "Remove a Course"
     print(f"---{function_title}---\n")
-    remove_entity("Course", "courses.txt")
+    remove_entity("Course", COURSES_FILE)
 
     continue_menu(function_title, admin_course_menu, remove_course)
 
@@ -111,7 +111,7 @@ def remove_course(): #NEW ADDITION
 def remove_module(): #NEW ADDITION
     function_title = "Remove a Module"
     print(f"---{function_title}---\n")
-    remove_entity("Module", "modules.txt")
+    remove_entity("Module", MODULES_FILE)
 
     continue_menu(function_title, admin_module_menu, remove_module)
 
@@ -138,7 +138,7 @@ def edit_course():
 def edit_student():
     function_title = "Edit Student Information"
     print(f"---{function_title}---\n")
-    edit_entity('Student', 'students.txt', ['Name', 'Course ID', 'Contact', 'Email'], admin_student_menu)
+    edit_entity('Student', 'STUDENTS_FILE', ['Name', 'Course ID', 'Contact', 'Email'], admin_student_menu)
     continue_menu(function_title, admin_student_menu, edit_student)
 
 
@@ -155,19 +155,19 @@ def edit_module():
 
 def generate_report():
     #extract data from text file and put it in a list then use the len() function to count each record
-    with open("courses.txt", "r") as courseFile:
+    with open(COURSES_FILE, "r") as courseFile:
         course_list = courseFile.readlines()
     total_courses = len(course_list)
 
-    with open("students.txt", "r") as studentFile:
+    with open(STUDENTS_FILE, "r") as studentFile:
         student_list = studentFile.readlines()
     total_students = len(student_list)
 
-    with open("modules.txt", "r") as moduleFile: # NEW ADDITION
+    with open(MODULES_FILE, "r") as moduleFile: # NEW ADDITION
         module_list = moduleFile.readlines()
     total_modules = len(module_list)
 
-    with open("lecturers.txt", "r") as lecturerFile:
+    with open(LECTURERS_FILE, "r") as lecturerFile:
         lecturer_list = lecturerFile.readlines()
     total_lecturers = len(lecturer_list)
 
@@ -191,10 +191,10 @@ def view_all_data():
 
     with open("allData.txt", "w") as allDataFile:  # Open file in write mode
 
-        display_list(allDataFile, "Students", "students.txt")
-        display_list(allDataFile, "Courses", "courses.txt")
-        display_list(allDataFile, "Lecturers", "lecturers.txt")
-        display_list(allDataFile, "Modules", "modules.txt") #NEW ADDITION
+        display_list(allDataFile, "Students", STUDENTS_FILE)
+        display_list(allDataFile, "Courses", COURSES_FILE)
+        display_list(allDataFile, "Lecturers", LECTURERS_FILE)
+        display_list(allDataFile, "Modules", MODULES_FILE) #NEW ADDITION
 
     print("All data saved to 'allData.txt'")
 
@@ -346,7 +346,7 @@ def admin_menu():
 
 # reads modules from file for a specific lecturer
 def load_modules(lecturer_id):
-    modules_list = text_to_list("modules.txt")
+    modules_list = text_to_list(MODULES_FILE)
     #text_to_list function can extract the list, and it already has exception handling
     filtered_modules=[] #this is the module for the specific lecturer
     for module in modules_list:
@@ -585,7 +585,7 @@ def handle_view_grades(lecturer_id):
 def lecturer_menu():
     lecturer_id = input("Enter your lecturer ID: ")
 
-    while can_login(lecturer_id,"lecturers.txt", "Lecturer"):
+    while can_login(lecturer_id,LECTURERS_FILE, "Lecturer"):
         show_menu()
         choice = input()
 
@@ -636,7 +636,7 @@ def registrar_menu():
 
 #Making a def function for registering students
 def register_student():
-    students = text_to_list("students.txt")  # Read existing data
+    students = read_students()  # Read existing data
     print("You can now register:")
     while True:
         student_tp = input("Please enter your TP number: ").upper()  # .upper() for consistency
@@ -694,14 +694,14 @@ def register_student():
 
     student_details = [student_tp, student_name, program, contact_information, email, birthday]
     students.append(student_details)  # Append the new student's details
-    list_to_text(students, "students.txt")  # Write the updated list back to the file
+    write_students(students)  # Write the updated list back to the file
     print("You are now registered.")
         #This def function will ensure that the TP number is not taken already
 
 
 #Making a def function for finding a student based on TP number
 def find_student_by_tp(tp_number):
-    students= text_to_list("students.txt")
+    students = read_students()
     for student in students:
         if student[0] == tp_number:         #It will check if the TP number is already given or not
             return student
@@ -709,7 +709,7 @@ def find_student_by_tp(tp_number):
 
 #Making a def function for displaying student details
 def student_display():
-    students= text_to_list("students.txt")
+    students = read_students()
     if not students:
         print("There are no registered students.")
         return
@@ -719,7 +719,7 @@ def student_display():
 #def function for updating student details
 def student_update():
     tp_number = input("Enter your TP number: ").upper()
-    students = text_to_list("students.txt")  # Load all students from the file
+    students = read_students()  # Load all students from the file
     student_found = False
     for student in students:
         if student[0] == tp_number:  # Check if the TP number matches
@@ -744,7 +744,7 @@ def student_update():
                 print("You can only enter 1, 2, 3 or 4")
                 return
             
-            list_to_text(students, "students.txt")  # Write the updated list back to the file
+            write_students(students)  # Write the updated list back to the file
             print("Your updated details are:")
             print(f"TP Number: {student[0]}, Name: {student[1]}, Program: {student[2]}, Contact: {student[3]}, Email Address: {student[4]}, Birthday: {student[5]}")
             print("Your details have been updated.")
@@ -1019,7 +1019,7 @@ def view_attendance(student_id):
 
 # Enroll in a module
 def enroll_in_module(student_id):
-    modules_list = text_to_list("modules.txt")
+    modules_list = text_to_list(MODULES_FILE)
     enrollments_list = text_to_list("enrollments.txt")
 
     print("\nAvailable Modules:")
@@ -1050,7 +1050,7 @@ def enroll_in_module(student_id):
 # View enrolled modules
 def view_enrolled_modules(student_id):
     enrollments_list = text_to_list("enrollments.txt")
-    modules_list = text_to_list("modules.txt")
+    modules_list = text_to_list(MODULES_FILE)
     print(f"\nEnrolled Modules for Student ID: {student_id}")
     found_modules = False
     for enrollment in enrollments_list:
@@ -1068,7 +1068,7 @@ def view_enrolled_modules(student_id):
 def student_menu():
     student_id = input("Enter your Student ID: ")
 
-    while can_login(student_id, "students.txt", "Student"):
+    while can_login(student_id, STUDENTS_FILE, "Student"):
         print("\n=== Student System ===")
         print("1. View Grades")
         print("2. View Attendance")
