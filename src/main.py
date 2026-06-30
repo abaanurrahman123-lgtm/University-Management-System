@@ -612,7 +612,7 @@ def lecturer_menu():
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-#Abaan - Registrar Part
+#Registrar Part
 
 
 #Making a def function for menu
@@ -770,7 +770,7 @@ def each_details():
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-#Shelton - Accountant Part
+#Accountant Part
 
 
 from datetime import datetime
@@ -990,7 +990,6 @@ def accountant_menu():
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-# Joyce's Part (Student)
 # Student Functions
 
 # View grades for the student
