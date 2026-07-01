@@ -4,7 +4,7 @@ utils.py
 Shared utility functions used throughout the University Management System.
 """
 
-def text_to_list(file_path): #by Lisa
+def text_to_list(file_path):  
     #this function will be used each time what data is extracted from a text file to put in a list variable for processing
     my_list = []
     try:
@@ -21,7 +21,7 @@ def text_to_list(file_path): #by Lisa
         print(f"Error: An input/output error occurred while accessing {file_path}.")
     return my_list
 
-def list_to_text(my_list, file_path): #by Lisa
+def list_to_text(my_list, file_path):  
     try:
         with open(file_path, "w") as file: #open in write mode
             for row in my_list: # for each row in the list, write it to the file and use a separator
@@ -30,7 +30,7 @@ def list_to_text(my_list, file_path): #by Lisa
     except IOError:
         print(f"Error: Could not write to file {file_path}.")
 
-def append_file(record, file_path): #by Lisa
+def append_file(record, file_path):  
     # Check if the file exists by trying to open it in read mode
     try:
         with open(file_path, "r"):
@@ -45,7 +45,7 @@ def append_file(record, file_path): #by Lisa
     except IOError:
         print(f"Error: An input/output error occurred while accessing {file_path}.")
 
-def remove_entity(entity_name, entity_file): #by Lisa
+def remove_entity(entity_name, entity_file):  
     search_id = input(f"Enter {entity_name} ID: ")
 
     my_list = text_to_list(entity_file)
@@ -65,7 +65,7 @@ def remove_entity(entity_name, entity_file): #by Lisa
     print(f"{entity_name} {search_id} not found.")
 
 
-def edit_entity(entity_name, file_path, fields, menu_function): #by Lisa
+def edit_entity(entity_name, file_path, fields, menu_function):  
 
     search_id = input(f"Enter {entity_name} ID: ")
 
@@ -110,7 +110,7 @@ def edit_entity(entity_name, file_path, fields, menu_function): #by Lisa
 
 
 
-def continue_menu(function_title, role_menu, repeating_function): #by Lisa
+def continue_menu(function_title, role_menu, repeating_function):  
     while True:
         userchoice = input(f"\nPress 1 to {function_title}. Press 0 to return to menu.\n")
         if userchoice == "1":
@@ -122,7 +122,7 @@ def continue_menu(function_title, role_menu, repeating_function): #by Lisa
             print("Invalid input.")
 
 
-def display_list(display_file, entity_name, entity_file): #by Lisa
+def display_list(display_file, entity_name, entity_file):  
     display_file.write(f"\n\n---{entity_name}---\n\n")
     with open(entity_file, "r") as file:
         my_list = file.readlines()

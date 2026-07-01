@@ -346,7 +346,10 @@ def admin_menu():
 
 # reads modules from file for a specific lecturer
 def load_modules(lecturer_id):
-    modules_list = text_to_list(MODULES_FILE)
+    modules_list = [
+        line.strip().split(", ")
+        for line in read_modules()
+    ]
     #text_to_list function can extract the list, and it already has exception handling
     filtered_modules=[] #this is the module for the specific lecturer
     for module in modules_list:
@@ -382,7 +385,10 @@ def record_grade(lecturer_id, module_code, student_id, grade):
         return False
 
     # read old grades
-    grades_list = text_to_list("grades.txt")
+    grades_list = [
+        line.strip().split(", ")
+        for line in read_grades()
+    ]
     # update grade if exists, else add new one
     found = False
     for i in range(len(grades_list)):
@@ -395,7 +401,9 @@ def record_grade(lecturer_id, module_code, student_id, grade):
         grades_list.append([student_id, module_code, grade])
 
     # save all grades back to file
-    list_to_text(grades_list, "grades.txt")
+    write_grades(
+        [", ".join(row) + "\n" for row in grades_list]
+    )
     #list to text function can be used to write the list to the text file, already does exception handling
 
 
@@ -412,7 +420,10 @@ def view_student_list(lecturer_id, module_code):
         print("Whoops! Looks like you can't view this module's students!")
         return
 
-    enrollments_list = text_to_list("enrollments.txt")
+    enrollments_list = [
+        line.strip().split(", ")
+        for line in read_enrollments()
+    ]
     print(f"\nStudents in {module_code}:")
     print("-" * 30)
     found_students = False
@@ -438,12 +449,11 @@ def track_attendance(lecturer_id, module_code, date, student_id, status):
         return False
 
     try:
-        f = open('attendance.txt', 'a')
-        f.write(f"{date},{module_code},{student_id},{status}\n")
-        f.close()
+        record = f"{date}, {module_code}, {student_id}, {status}"
+        append_attendance(record)
         print("Saved attendance!")
         return True
-    except FileNotFoundError:
+    except Exception:
         print("Whoops! Looks like you couldn't save the attendance.")
         return False
 
@@ -461,7 +471,10 @@ def view_student_grades(lecturer_id, module_code):
         print("Whoops! Looks like you can't view grades for this module!")
         return
 
-    grades_list = text_to_list("grades.txt")
+    grades_list = [
+        line.strip().split(", ")
+        for line in read_grades()
+    ]
     print(f"\nGrades for {module_code}:")
     print("-" * 30)
     found_grades = False
