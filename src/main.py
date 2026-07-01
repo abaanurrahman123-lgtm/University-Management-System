@@ -830,12 +830,17 @@ def record_tuition_fees():
             except ValueError:
                 print("Invalid date format. Please use DD/MM/YYYY.")
 
-        fee_records = text_to_list("fee_records.txt")
+        fee_records = [
+            line.strip().split(", ")
+            for line in read_fee_records()
+        ]
         if any(record[0] == sID and record[4] == dop for record in fee_records):
             print(f"Error: A record already exists for Student ID {sID} on {dop}.")
         else:
             fee_records.append([sID, sN, f"{aP:.2f}", f"{oB:.2f}", dop])
-            list_to_text(fee_records, "fee_records.txt")
+            write_fee_records(
+                [", ".join(row) + "\n" for row in fee_records]
+            )
             print("Tuition fees recorded successfully.")
 
         if not repeat_action(function_title):
@@ -847,7 +852,10 @@ def view_outstanding_fees():
     while True:
         print(f"---{function_title}---")
 
-        fee_records = text_to_list("fee_records.txt")
+        fee_records = [
+            line.strip().split(", ")
+            for line in read_fee_records()
+        ]
 
         # To filter records w valid fees and + oB
         outstanding = [
@@ -881,13 +889,18 @@ def update_payment_records():
             print("Invalid input. Please enter a numeric value.")
             continue
 
-        fee_records = text_to_list("fee_records.txt")
+        fee_records = [
+            line.strip().split(", ")
+            for line in read_fee_records()
+        ]
         for record in fee_records:
             if record[0] == sID:
                 outstanding_balance = float(record[3]) - aP
                 record[3] = f"{max(outstanding_balance, 0):.2f}"
                 record[2] = f"{aP:.2f}"
-                list_to_text(fee_records, "fee_records.txt")
+                write_fee_records(
+                    [", ".join(row) + "\n" for row in fee_records]
+                )
                 print("Payment record updated successfully.")
                 break
         else:
@@ -910,20 +923,24 @@ def issue_fee_receipt():
             print("Invalid date format. Please use DD/MM/YYYY.")
             continue
 
-        fee_records = text_to_list("fee_records.txt")
+        fee_records = [
+            line.strip().split(", ")
+            for line in read_fee_records()
+        ]
         for record in fee_records:
             if record[0] == sID and record[4] == dop:
                 receipt_number = f"RCPT-{datetime.now().strftime('%Y%m%d%H%M%S')}"
-                with open("receipts.txt", "a") as receipt_file:
-                    receipt_file.write(
+                receipt = (
                         f"Receipt Number: {receipt_number}\n"
                         f"Student ID: {record[0]}\n"
                         f"Name: {record[1]}\n"
                         f"Amount Paid: {record[2]}\n"
                         f"Outstanding Balance: {record[3]}\n"
                         f"Date of Payment: {record[4]}\n"
-                        "-" * 30 + "\n"
-                    )
+                        + "-" * 30
+                )
+
+                append_receipt(receipt)
                 print(f"Receipt generated successfully. Receipt Number: {receipt_number}")
                 break
         else:
@@ -939,7 +956,10 @@ def view_financial_summary():
         print(f"---{function_title}---")
 
         # Convert text data into a list of records
-        fee_records = text_to_list("fee_records.txt")
+        fee_records = [
+            line.strip().split(", ")
+            for line in read_fee_records()
+        ]
 
         # Calculate total collected and outstanding
         try:
