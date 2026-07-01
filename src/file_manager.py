@@ -4,7 +4,6 @@ file_manager.py
 Centralized file operations for the University Management System.
 """
 
-from pathlib import Path
 from config import *
 
 # ==================================================
@@ -183,3 +182,95 @@ def append_attendance(record):
     Add a new attendance record.
     """
     append_line(ATTENDANCE_FILE, record)
+
+# ==================================================
+# Enrollment File Operations
+# ==================================================
+
+def read_enrollments():
+    """
+    Read all enrollment records.
+    """
+    return read_lines(ENROLLMENTS_FILE)
+
+
+def write_enrollments(lines):
+    """
+    Overwrite all enrollment records.
+    """
+    write_lines(ENROLLMENTS_FILE, lines)
+
+
+def append_enrollment(record):
+    """
+    Add a new enrollment record.
+    """
+    append_line(ENROLLMENTS_FILE, record)
+
+# ==================================================
+# Fee Record Operations
+# ==================================================
+
+def read_fee_records():
+    """
+    Read all fee records.
+    """
+    return read_lines(FEE_RECORDS_FILE)
+
+
+def write_fee_records(lines):
+    """
+    Overwrite all fee records.
+    """
+    write_lines(FEE_RECORDS_FILE, lines)
+
+
+def append_fee_record(record):
+    """
+    Add a new fee record.
+    """
+    append_line(FEE_RECORDS_FILE, record)
+
+# ==================================================
+# Receipt File Operations
+# ==================================================
+
+def read_receipts():
+    """
+    Read all receipts.
+    """
+    return read_lines(RECEIPTS_FILE)
+
+
+def write_receipts(lines):
+    """
+    Overwrite all receipts.
+    """
+    write_lines(RECEIPTS_FILE, lines)
+
+
+def append_receipt(receipt):
+    """
+    Add a new receipt.
+    """
+    append_line(RECEIPTS_FILE, receipt)
+
+# ==================================================
+# Report File Operations
+# ==================================================
+
+def write_report(lines):
+    """
+    Save the generated report.
+    """
+    write_lines(REPORT_FILE, lines)
+
+# ==================================================
+# All Data File Operations
+# ==================================================
+
+def write_all_data(lines):
+    """
+    Save the combined data report.
+    """
+    write_lines(ALL_DATA_FILE, lines)
