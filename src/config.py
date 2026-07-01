@@ -21,7 +21,6 @@ STUDENTS_FILE = DATA_DIR / "students.txt"
 COURSES_FILE = DATA_DIR / "courses.txt"
 LECTURERS_FILE = DATA_DIR / "lecturers.txt"
 MODULES_FILE = DATA_DIR / "modules.txt"
-TEXTBOOKS_FILE = DATA_DIR / "textbooks.txt"
 
 GRADES_FILE = DATA_DIR / "grades.txt"
 ATTENDANCE_FILE = DATA_DIR / "attendance.txt"
