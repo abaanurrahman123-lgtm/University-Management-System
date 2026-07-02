@@ -122,7 +122,7 @@ def remove_module(): #NEW ADDITION
 def edit_lecturer():
     function_title = "Edit Lecturer Information"
     print(f"---{function_title}---\n")
-    edit_entity('Lecturer', 'lecturers.txt', ['Name','Contact',], admin_lecturer_menu)
+    edit_entity('Lecturer', LECTURERS_FILE, ['Name','Contact',], admin_lecturer_menu)
     continue_menu(function_title, admin_lecturer_menu, edit_lecturer)
 
 
@@ -130,7 +130,7 @@ def edit_lecturer():
 def edit_course():
     function_title = "Edit Course Information"
     print(f"---{function_title}---\n")
-    edit_entity('Course', 'courses.txt', ['Name'], admin_course_menu)
+    edit_entity('Course', COURSES_FILE, ['Name'], admin_course_menu)
     continue_menu(function_title, admin_course_menu, edit_course)
 
 
@@ -138,7 +138,7 @@ def edit_course():
 def edit_student():
     function_title = "Edit Student Information"
     print(f"---{function_title}---\n")
-    edit_entity('Student', 'STUDENTS_FILE', ['Name', 'Course ID', 'Contact', 'Email'], admin_student_menu)
+    edit_entity('Student', STUDENTS_FILE, ['Name', 'Course ID', 'Contact', 'Email'], admin_student_menu)
     continue_menu(function_title, admin_student_menu, edit_student)
 
 
@@ -146,7 +146,7 @@ def edit_student():
 def edit_module():
     function_title = "Edit Module Information"
     print(f"---{function_title}---\n")
-    edit_entity('Module', 'modules.txt', ['Name'], admin_module_menu)
+    edit_entity('Module', MODULES_FILE, ['Name'], admin_module_menu)
     continue_menu(function_title, admin_student_menu, edit_student)
 
 
