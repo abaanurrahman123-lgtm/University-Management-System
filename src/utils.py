@@ -4,7 +4,7 @@ utils.py
 Shared utility functions used throughout the University Management System.
 """
 
-def text_to_list(file_path):  
+def text_to_list(file_path):
     #this function will be used each time what data is extracted from a text file to put in a list variable for processing
     my_list = []
     try:
@@ -130,7 +130,7 @@ def display_list(display_file, entity_name, entity_file):
             display_file.write(row.strip() + "\n")
 
 
-def can_login(search_id, file_path, entity_name): #by Fahad
+def can_login(search_id, file_path, entity_name):
     my_list = text_to_list(file_path)
 
     for entity in my_list:
@@ -143,6 +143,6 @@ def can_login(search_id, file_path, entity_name): #by Fahad
     return False
 
 
-def check_unique_id(id, list, column): #by Abaan
+def check_unique_id(id, list, column):
     #This def function will ensure that an ID is unique
     return not any(row[column] == id for row in list)
