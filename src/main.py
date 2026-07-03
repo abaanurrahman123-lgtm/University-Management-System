@@ -21,7 +21,7 @@ def add_course():
 
     course = f"{course_id}, {course_name}, {course_credit}"
 
-    append_file(course,COURSES_FILE)
+    append_course(course)
     print("Course added successfully.")
 
     # option to do it again or go back to menu
@@ -40,7 +40,7 @@ def add_student():
 
     student = f"{student_id}, {student_name}, {student_course}, {student_contact}, {student_email}, {student_birthday}"
 
-    append_file(student, STUDENTS_FILE)
+    append_student(student)
     print("Student added successfully.")
 
     # option to do it again or go back to menu
@@ -56,7 +56,7 @@ def add_lecturer():
 
     lecturer = f"{lecturer_id}, {lecturer_name}, {lecturer_contact}"
 
-    append_file(lecturer, LECTURERS_FILE)
+    append_lecturer(lecturer)
     print("Lecturer added successfully.")
 
     # option to do it again or go back to menu
@@ -75,7 +75,7 @@ def add_module():
     module = f"{module_id}, {module_name}, {course_id}"
 
 
-    append_file(module, MODULES_FILE)
+    append_module(module)
     print("Module added successfully.")
 
     # option to do it again or go back to menu
@@ -147,7 +147,7 @@ def edit_module():
     function_title = "Edit Module Information"
     print(f"---{function_title}---\n")
     edit_entity('Module', MODULES_FILE, ['Name'], admin_module_menu)
-    continue_menu(function_title, admin_student_menu, edit_student)
+    continue_menu(function_title, admin_module_menu, edit_module)
 
 
 
@@ -346,10 +346,7 @@ def admin_menu():
 
 # reads modules from file for a specific lecturer
 def load_modules(lecturer_id):
-    modules_list = [
-        line.strip().split(", ")
-        for line in read_modules()
-    ]
+    modules_list = read_modules()
     #text_to_list function can extract the list, and it already has exception handling
     filtered_modules=[] #this is the module for the specific lecturer
     for module in modules_list:
@@ -385,10 +382,7 @@ def record_grade(lecturer_id, module_code, student_id, grade):
         return False
 
     # read old grades
-    grades_list = [
-        line.strip().split(", ")
-        for line in read_grades()
-    ]
+    grades_list = read_grades()
     # update grade if exists, else add new one
     found = False
     for i in range(len(grades_list)):
@@ -401,9 +395,7 @@ def record_grade(lecturer_id, module_code, student_id, grade):
         grades_list.append([student_id, module_code, grade])
 
     # save all grades back to file
-    write_grades(
-        [", ".join(row) + "\n" for row in grades_list]
-    )
+    write_grades(grades_list)
     #list to text function can be used to write the list to the text file, already does exception handling
 
 
@@ -420,10 +412,7 @@ def view_student_list(lecturer_id, module_code):
         print("Whoops! Looks like you can't view this module's students!")
         return
 
-    enrollments_list = [
-        line.strip().split(", ")
-        for line in read_enrollments()
-    ]
+    enrollments_list = read_enrollments()
     print(f"\nStudents in {module_code}:")
     print("-" * 30)
     found_students = False
@@ -471,10 +460,7 @@ def view_student_grades(lecturer_id, module_code):
         print("Whoops! Looks like you can't view grades for this module!")
         return
 
-    grades_list = [
-        line.strip().split(", ")
-        for line in read_grades()
-    ]
+    grades_list = read_grades()
     print(f"\nGrades for {module_code}:")
     print("-" * 30)
     found_grades = False
@@ -830,17 +816,12 @@ def record_tuition_fees():
             except ValueError:
                 print("Invalid date format. Please use DD/MM/YYYY.")
 
-        fee_records = [
-            line.strip().split(", ")
-            for line in read_fee_records()
-        ]
+        fee_records = read_fee_records()
         if any(record[0] == sID and record[4] == dop for record in fee_records):
             print(f"Error: A record already exists for Student ID {sID} on {dop}.")
         else:
             fee_records.append([sID, sN, f"{aP:.2f}", f"{oB:.2f}", dop])
-            write_fee_records(
-                [", ".join(row) + "\n" for row in fee_records]
-            )
+            write_fee_records(fee_records)
             print("Tuition fees recorded successfully.")
 
         if not repeat_action(function_title):
@@ -852,10 +833,7 @@ def view_outstanding_fees():
     while True:
         print(f"---{function_title}---")
 
-        fee_records = [
-            line.strip().split(", ")
-            for line in read_fee_records()
-        ]
+        fee_records = read_fee_records()
 
         # To filter records w valid fees and + oB
         outstanding = [
@@ -889,18 +867,13 @@ def update_payment_records():
             print("Invalid input. Please enter a numeric value.")
             continue
 
-        fee_records = [
-            line.strip().split(", ")
-            for line in read_fee_records()
-        ]
+        fee_records = read_fee_records()
         for record in fee_records:
             if record[0] == sID:
                 outstanding_balance = float(record[3]) - aP
                 record[3] = f"{max(outstanding_balance, 0):.2f}"
                 record[2] = f"{aP:.2f}"
-                write_fee_records(
-                    [", ".join(row) + "\n" for row in fee_records]
-                )
+                write_fee_records(fee_records)
                 print("Payment record updated successfully.")
                 break
         else:
@@ -923,10 +896,7 @@ def issue_fee_receipt():
             print("Invalid date format. Please use DD/MM/YYYY.")
             continue
 
-        fee_records = [
-            line.strip().split(", ")
-            for line in read_fee_records()
-        ]
+        fee_records = read_fee_records()
         for record in fee_records:
             if record[0] == sID and record[4] == dop:
                 receipt_number = f"RCPT-{datetime.now().strftime('%Y%m%d%H%M%S')}"
@@ -956,10 +926,7 @@ def view_financial_summary():
         print(f"---{function_title}---")
 
         # Convert text data into a list of records
-        fee_records = [
-            line.strip().split(", ")
-            for line in read_fee_records()
-        ]
+        fee_records = read_fee_records()
 
         # Calculate total collected and outstanding
         try:
@@ -1028,7 +995,7 @@ def accountant_menu():
 # View grades for the student
 
 def view_grades(student_id):
-    grades_list = text_to_list("grades.txt")
+    grades_list = read_grades()
     print(f"\nGrades for Student ID: {student_id}")
     found_grades = False
     for grade in grades_list:
@@ -1040,7 +1007,7 @@ def view_grades(student_id):
 
 # View attendance for the student
 def view_attendance(student_id):
-    attendance_list = text_to_list("attendance.txt")
+    attendance_list = read_attendance()
     print(f"\nAttendance for Student ID: {student_id}")
     found_attendance = False
     for record in attendance_list:
@@ -1052,8 +1019,8 @@ def view_attendance(student_id):
 
 # Enroll in a module
 def enroll_in_module(student_id):
-    modules_list = text_to_list(MODULES_FILE)
-    enrollments_list = text_to_list("enrollments.txt")
+    modules_list = read_modules()
+    enrollments_list = read_enrollments()
 
     print("\nAvailable Modules:")
     for module in modules_list:
@@ -1076,14 +1043,14 @@ def enroll_in_module(student_id):
 
     # Add the enrollment record
     enrollments_list.append([student_id, module_code])
-    list_to_text(enrollments_list, "enrollments.txt")
+    write_enrollments(enrollments_list)
     print(f"Successfully enrolled in Module: {module_code}")
 
 
 # View enrolled modules
 def view_enrolled_modules(student_id):
-    enrollments_list = text_to_list("enrollments.txt")
-    modules_list = text_to_list(MODULES_FILE)
+    enrollments_list = read_enrollments()
+    modules_list = read_modules()
     print(f"\nEnrolled Modules for Student ID: {student_id}")
     found_modules = False
     for enrollment in enrollments_list:

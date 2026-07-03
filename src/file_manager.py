@@ -39,22 +39,39 @@ def append_line(file_path, line):
     with open(file_path, "a") as file:
         file.write(line + "\n")
 
+def read_records(file_path):
+    """
+    Read a text file and return a list of records.
+
+    Each record is returned as a list of values.
+    """
+    return [
+        line.strip().split(", ")
+        for line in read_lines(file_path)
+        if line.strip()
+    ]
+
+
+def write_records(file_path, records):
+    """
+    Save a list of records to a text file.
+    """
+    lines = [
+        ", ".join(record) + "\n"
+        for record in records
+    ]
+    write_lines(file_path, lines)
+
 # ==================================================
 # Student File Operations
 # ==================================================
 
 def read_students():
-    """
-    Read all student records.
-    """
-    return read_lines(STUDENTS_FILE)
+    return read_records(STUDENTS_FILE)
 
 
-def write_students(lines):
-    """
-    Overwrite all student records.
-    """
-    write_lines(STUDENTS_FILE, lines)
+def write_students(records):
+    write_records(STUDENTS_FILE, records)
 
 
 def append_student(student):
@@ -71,14 +88,14 @@ def read_courses():
     """
     Read all course records.
     """
-    return read_lines(COURSES_FILE)
+    return read_records(COURSES_FILE)
 
 
-def write_courses(lines):
+def write_courses(records):
     """
     Overwrite all course records.
     """
-    write_lines(COURSES_FILE, lines)
+    write_records(COURSES_FILE, records)
 
 
 def append_course(course):
@@ -95,14 +112,14 @@ def read_lecturers():
     """
     Read all lecturer records.
     """
-    return read_lines(LECTURERS_FILE)
+    return read_records(LECTURERS_FILE)
 
 
-def write_lecturers(lines):
+def write_lecturers(records):
     """
     Overwrite all lecturer records.
     """
-    write_lines(LECTURERS_FILE, lines)
+    write_records(LECTURERS_FILE, records)
 
 
 def append_lecturer(lecturer):
@@ -119,14 +136,14 @@ def read_modules():
     """
     Read all module records.
     """
-    return read_lines(MODULES_FILE)
+    return read_records(MODULES_FILE)
 
 
-def write_modules(lines):
+def write_modules(records):
     """
     Overwrite all module records.
     """
-    write_lines(MODULES_FILE, lines)
+    write_records(MODULES_FILE, records)
 
 
 def append_module(module):
@@ -143,14 +160,14 @@ def read_grades():
     """
     Read all grade records.
     """
-    return read_lines(GRADES_FILE)
+    return read_records(GRADES_FILE)
 
 
-def write_grades(lines):
+def write_grades(records):
     """
     Overwrite all grade records.
     """
-    write_lines(GRADES_FILE, lines)
+    write_records(GRADES_FILE, records)
 
 
 def append_grade(grade):
@@ -167,14 +184,14 @@ def read_attendance():
     """
     Read all attendance records.
     """
-    return read_lines(ATTENDANCE_FILE)
+    return read_records(ATTENDANCE_FILE)
 
 
-def write_attendance(lines):
+def write_attendance(records):
     """
     Overwrite all attendance records.
     """
-    write_lines(ATTENDANCE_FILE, lines)
+    write_records(ATTENDANCE_FILE, records)
 
 
 def append_attendance(record):
@@ -191,14 +208,14 @@ def read_enrollments():
     """
     Read all enrollment records.
     """
-    return read_lines(ENROLLMENTS_FILE)
+    return read_records(ENROLLMENTS_FILE)
 
 
-def write_enrollments(lines):
+def write_enrollments(records):
     """
     Overwrite all enrollment records.
     """
-    write_lines(ENROLLMENTS_FILE, lines)
+    write_records(ENROLLMENTS_FILE, records)
 
 
 def append_enrollment(record):
@@ -215,14 +232,14 @@ def read_fee_records():
     """
     Read all fee records.
     """
-    return read_lines(FEE_RECORDS_FILE)
+    return read_records(FEE_RECORDS_FILE)
 
 
-def write_fee_records(lines):
+def write_fee_records(records):
     """
     Overwrite all fee records.
     """
-    write_lines(FEE_RECORDS_FILE, lines)
+    write_records(FEE_RECORDS_FILE, records)
 
 
 def append_fee_record(record):
@@ -239,14 +256,14 @@ def read_receipts():
     """
     Read all receipts.
     """
-    return read_lines(RECEIPTS_FILE)
+    return read_records(RECEIPTS_FILE)
 
 
-def write_receipts(lines):
+def write_receipts(records):
     """
     Overwrite all receipts.
     """
-    write_lines(RECEIPTS_FILE, lines)
+    write_records(RECEIPTS_FILE, records)
 
 
 def append_receipt(receipt):
