@@ -170,7 +170,7 @@ def generate_report():
         lecturer_list = lecturerFile.readlines()
     total_lecturers = len(lecturer_list)
 
-    with open("report.txt", "w") as reportFile: # Write report data to the file
+    with open(REPORT_FILE, "w") as reportFile: # Write report data to the file
         reportFile.write(f"---REPORT---\n\n"
                          f"Total number of Students: {total_students}\n"
                          f"Total number of Courses: {total_courses}\n"
@@ -188,7 +188,7 @@ def generate_report():
 
 def view_all_data():
 
-    with open("allData.txt", "w") as allDataFile:  # Open file in write mode
+    with open(ALL_DATA_FILE, "w") as allDataFile:  # Open file in write mode
 
         display_list(allDataFile, "Students", STUDENTS_FILE)
         display_list(allDataFile, "Courses", COURSES_FILE)
