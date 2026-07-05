@@ -1,3 +1,4 @@
+from file_manager import read_records, write_records
 """
 utils.py
 
@@ -21,7 +22,7 @@ def text_to_list(file_path):
         print(f"Error: An input/output error occurred while accessing {file_path}.")
     return my_list
 
-def list_to_text(my_list, file_path):  
+def list_to_text(my_list, file_path):
     try:
         with open(file_path, "w") as file: #open in write mode
             for row in my_list: # for each row in the list, write it to the file and use a separator
@@ -48,7 +49,7 @@ def append_file(record, file_path):
 def remove_entity(entity_name, entity_file):  
     search_id = input(f"Enter {entity_name} ID: ")
 
-    my_list = text_to_list(entity_file)
+    my_list = read_records(entity_file)
 
     # Loop through the list with an index to keep track of positions
     for index, record in enumerate(my_list):
@@ -58,7 +59,7 @@ def remove_entity(entity_name, entity_file):
             if choice_verification.lower() == 'y':
                 del my_list[index]
                 print(f"{entity_name} {search_id} removed successfully.")
-                list_to_text(my_list, entity_file)
+                write_records(entity_file, my_list)
             else:
                 print("Delete cancelled.")
             return
@@ -70,7 +71,7 @@ def edit_entity(entity_name, file_path, fields, menu_function):
     search_id = input(f"Enter {entity_name} ID: ")
 
     # Load the entity list from the file
-    entity_list = text_to_list(file_path)
+    entity_list = read_records(file_path)
 
     # Find the entity by ID
     for index, entity in enumerate(entity_list):
@@ -103,7 +104,7 @@ def edit_entity(entity_name, file_path, fields, menu_function):
             print(f"{entity_name} {entity[0]} updated successfully!")
 
             # Write the updated list back to the file
-            list_to_text(entity_list, file_path)
+            write_records(file_path, entity_list)
             return
 
     print(f"{entity_name} {search_id} not found.")
@@ -131,7 +132,7 @@ def display_list(display_file, entity_name, entity_file):
 
 
 def can_login(search_id, file_path, entity_name):
-    my_list = text_to_list(file_path)
+    my_list = read_records(file_path)
 
     for entity in my_list:
         # Check if the entity's ID matches the ID we are searching for
