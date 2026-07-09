@@ -1,14 +1,10 @@
 from file_manager import *
-from utils import *
 
 import admin
 import registrar
 import lecturer
 import accountant
 import student
-
-#-----------------------------------------------------------------------------------------------------------------------
-#Main Menu
 
 def main():
     while True:
@@ -44,11 +40,8 @@ def main():
                 lecturer.lecturer_menu()
             elif userchoice == "5":
                 student.student_menu()
-
-            # add menu of other roles
             else:
                 print("Invalid input.")
-            #this is to catch any error that has not been handled.
 
 admin.set_main_menu(main)
 registrar.set_main_menu(main)
@@ -56,5 +49,4 @@ lecturer.set_main_menu(main)
 accountant.set_main_menu(main)
 student.set_main_menu(main)
 
-#calling the main menu function
 main()

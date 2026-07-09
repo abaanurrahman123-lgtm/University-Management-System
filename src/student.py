@@ -1,5 +1,4 @@
 from utils import *
-from config import *
 from file_manager import *
 
 main_menu_callback = None
@@ -20,7 +19,6 @@ def view_grades(student_id):
     if not found_grades:
         print("No grades recorded yet.")
 
-# View attendance for the student
 def view_attendance(student_id):
     attendance_list = read_attendance()
     print(f"\nAttendance for Student ID: {student_id}")
@@ -32,7 +30,6 @@ def view_attendance(student_id):
     if not found_attendance:
         print("No attendance records found.")
 
-# Enroll in a module
 def enroll_in_module(student_id):
     modules_list = read_modules()
     enrollments_list = read_enrollments()
@@ -43,26 +40,21 @@ def enroll_in_module(student_id):
 
     module_code = input("\nEnter the Module Code you want to enroll in: ")
 
-    # Check if the module exists
     module_exists = any(module[0] == module_code for module in modules_list)
     if not module_exists:
         print("Invalid Module Code. Please try again.")
         return
 
-    # Check if already enrolled
     already_enrolled = any(
         enrollment[0] == student_id and enrollment[1] == module_code for enrollment in enrollments_list)
     if already_enrolled:
         print("You are already enrolled in this module.")
         return
 
-    # Add the enrollment record
     enrollments_list.append([student_id, module_code])
     write_enrollments(enrollments_list)
     print(f"Successfully enrolled in Module: {module_code}")
 
-
-# View enrolled modules
 def view_enrolled_modules(student_id):
     enrollments_list = read_enrollments()
     modules_list = read_modules()
@@ -71,7 +63,6 @@ def view_enrolled_modules(student_id):
     for enrollment in enrollments_list:
         if enrollment[0] == student_id:
             module_code = enrollment[1]
-            # Find the module name
             module_name = next((module[1] for module in modules_list if module[0] == module_code), "Unknown Module")
             print(f"Code: {module_code} - Name: {module_name}")
             found_modules = True
