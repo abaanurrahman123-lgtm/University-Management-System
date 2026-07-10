@@ -74,9 +74,11 @@ def register_student():
 
 def find_student_by_tp(tp_number):
     students = read_students()
+
     for student in students:
-        if student[0] == tp_number:  # It will check if the TP number is already given or not
+        if student[0] == tp_number:
             return student
+
     return None
 
 
