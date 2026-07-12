@@ -73,8 +73,9 @@ def add_module():
     module_id = input("Enter the module ID: ")
     module_name = input("Enter the module name: ")
     course_id = input("Enter the course ID: ")
+    lecturer_id = input("Enter the lecturer ID: ")
 
-    module = f"{module_id}, {module_name}, {course_id}"
+    module = f"{module_id}, {module_name}, {course_id}, {lecturer_id}"
 
 
     append_module(module)

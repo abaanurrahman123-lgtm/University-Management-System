@@ -24,15 +24,3 @@ class Module:
             self.course_id,
             self.lecturer_id,
         ]
-if __name__ == "__main__":
-    record = [
-        "M001",
-        "Programming Fundamentals",
-        "C001",
-        "L001",
-    ]
-
-    module = Module.from_record(record)
-
-    print(module)
-    print(module.to_record())
