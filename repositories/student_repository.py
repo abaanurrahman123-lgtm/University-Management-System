@@ -46,3 +46,26 @@ def save_student(updated_student):
             break
 
     save_all_students(students)
+
+def add_student(student):
+    """
+    Add a new Student object.
+    """
+    students = get_all_students()
+    students.append(student)
+    save_all_students(students)
+
+def student_exists(tp_number):
+    """
+    Check whether a student exists.
+    """
+    return get_student_by_tp(tp_number) is not None
+
+def email_exists(email):
+    """
+    Check whether an email already exists.
+    """
+    return any(
+        student.email == email
+        for student in get_all_students()
+    )
