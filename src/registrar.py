@@ -72,14 +72,10 @@ def register_student():
         #This def function will ensure that the TP number is not taken already
 
 
+from services.student_service import find_student
+
 def find_student_by_tp(tp_number):
-    students = read_students()
-
-    for student in students:
-        if student[0] == tp_number:
-            return student
-
-    return None
+    return find_student(tp_number)
 
 
 # Making a def function for displaying student details
@@ -135,7 +131,14 @@ def each_details():
     student = find_student_by_tp(tp_number)         #This will check if the TP number is used
     if student:      #\n is used to change lines
         print("Student details are:")
-        print(f"TP Number: {student[0]} \nName: {student[1]} \nProgram: {student[2]} \nContact: {student[3]} \nE-mail ID: {student[4]}  \nBirthday: {student[5]}")
+        print(
+            f"TP Number : {student.tp_number}"
+            f"\nName      : {student.name}"
+            f"\nProgram   : {student.program}"
+            f"\nContact   : {student.contact}"
+            f"\nEmail     : {student.email}"
+            f"\nBirthday  : {student.birthday}"
+        )
     else:
         print("Invalid TP number.")
 
