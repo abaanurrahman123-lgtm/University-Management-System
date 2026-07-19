@@ -85,3 +85,9 @@ def update_student(
     save_student(student)
 
     return True, "Student updated successfully."
+
+def email_available(email: str) -> bool:
+    """
+    Check whether an email is available for registration.
+    """
+    return not email_exists(email)

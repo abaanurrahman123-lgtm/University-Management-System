@@ -1,5 +1,11 @@
 from utils import *
 from file_manager import *
+from services.student_service import (
+    find_student,
+    register_student,
+    email_available,
+)
+from services.student_service import register_student as register_student_service
 
 main_menu_callback = None
 
@@ -9,14 +15,13 @@ def set_main_menu(callback):
     main_menu_callback = callback
 
 def register_student():
-    students = read_students()
     print("You can now register:")
     while True:
         student_tp = input("Please enter your TP number: ").upper()  # .upper() for consistency
         if not student_tp.strip():  # Check for empty or space-only input
             print("Your TP number cannot be empty or consist of spaces. Please enter your TP number again.")
-        elif not check_unique_id(student_tp, students, 0):
-            print("This TP number is already used. Please use a unique TP number.")
+        elif find_student(student_tp) is not None:
+            print("This TP number is already used.")
         else:
             break
 
@@ -50,8 +55,8 @@ def register_student():
     while True:
         email = input("Please enter your e-mail address: ")
         if not email.strip():             #This code will stop people from entering empty e_mail or e_mail that only consists of spaces
-            print("Your E-mail cannot be empty or just be space. Please enter your program again.")
-        elif check_unique_id(email, students, 4):             #We use the def function unique_email
+            print("Your E-mail cannot be empty or just be space. Please enter your E-mail again.")
+        elif email_available(email):
             break
         else:
             print("This email ID has already been taken. Please enter a unique email ID.")
@@ -65,10 +70,18 @@ def register_student():
         else:
             break
 
-    student_details = [student_tp, student_name, program, contact_information, email, birthday]
-    students.append(student_details)  # Append the new student's details
-    write_students(students)  # Write the updated list back to the file
-    print("You are now registered.")
+    student_data = (
+        student_tp,
+        student_name,
+        program,
+        contact_information,
+        email,
+        birthday,
+    )
+
+    success, message = register_student_service(student_data)
+
+    print(message)
         #This def function will ensure that the TP number is not taken already
 
 
