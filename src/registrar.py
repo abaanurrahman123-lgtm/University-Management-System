@@ -4,6 +4,7 @@ from services.student_service import (
     find_student,
     register_student,
     email_available,
+    update_student,
 )
 from services.student_service import register_student as register_student_service
 
@@ -103,41 +104,79 @@ def student_display():
 # def function for updating student details
 def student_update():
     tp_number = input("Enter your TP number: ").upper()
-    students = read_students()  # Load all students from the file
-    student_found = False
-    for student in students:
-        if student[0] == tp_number:  # Check if the TP number matches
-            student_found = True
-            print("Your current details are:")
-            print(
-                f"TP Number: {student[0]}, Name: {student[1]}, Program: {student[2]}, Contact: {student[3]}, Email Address: {student[4]}, Birthday: {student[5]}")
-            print("Do you want to update your 'program','contact information' or 'E-mail ID'?")
-            print("Press 1 for program, 2 for contact information, 3 for E-mail ID and 4 for exit.")
-            update_details = input()
-            if update_details == "1":
-                new_program = input("Enter your new program: ")
-                student[2] = new_program  # This code will change the student program of the selected student to new_program
-            elif update_details == "2":
-                new_contact = input("Enter your new contact information: ")
-                student[3] = new_contact  # This code will change the student contact of the selected student to new_contact
-            elif update_details == "3":
-                new_email = input("Enter your new E-mail ID: ")
-                student[4] = new_email
-            elif update_details == "4":
-                return
-            else:
-                print("You can only enter 1, 2, 3 or 4")
-                return
+    student = find_student(tp_number)
+    if student is None:
+        print("Invalid TP number. Please check again.")
+        return
+    print("Your current details are:")
+    print(
+        f"TP Number: {student.tp_number}, "
+        f"Name: {student.name}, "
+        f"Program: {student.program}, "
+        f"Contact: {student.contact}, "
+        f"Email Address: {student.email}, "
+        f"Birthday: {student.birthday}"
+    )
 
-            write_students(students)  # Write the updated list back to the file
-            print("Your updated details are:")
-            print(
-                f"TP Number: {student[0]}, Name: {student[1]}, Program: {student[2]}, Contact: {student[3]}, Email Address: {student[4]}, Birthday: {student[5]}")
-            print("Your details have been updated.")
+    print("Do you want to update your 'program', 'contact information' or 'E-mail ID'?")
+    print("Press 1 for program, 2 for contact information, 3 for E-mail ID and 4 for exit.")
+
+    update_details = input("Enter your choice: ")
+    if update_details == "1":
+        new_program = input("Enter your new program: ")
+
+        success, result = update_student(
+            tp_number,
+            program=new_program,
+        )
+
+        if not success:
+            print(result)
             return
 
-    if not student_found:
-        print("Invalid TP number. Please check again.")
+        student = result
+    elif update_details == "2":
+        new_contact = input("Enter your new contact information: ")
+
+        success, result = update_student(
+            tp_number,
+            contact=new_contact,
+        )
+
+        if not success:
+            print(result)
+            return
+
+        student = result
+    elif update_details == "3":
+        new_email = input("Enter your new E-mail ID: ")
+
+        success, result = update_student(
+            tp_number,
+            email=new_email,
+        )
+
+        if not success:
+            print(result)
+            return
+
+        student = result
+    elif update_details == "4":
+        return
+    else:
+        print("You can only enter 1, 2, 3 or 4")
+        return
+    print("Your updated details are:")
+    print(
+        f"TP Number: {student.tp_number}, "
+        f"Name: {student.name}, "
+        f"Program: {student.program}, "
+        f"Contact: {student.contact}, "
+        f"Email Address: {student.email}, "
+        f"Birthday: {student.birthday}"
+    )
+
+    print("Your details have been updated.")
 
 def each_details():
     tp_number = input("Please enter your TP number: ").upper()

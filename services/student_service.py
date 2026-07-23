@@ -60,7 +60,7 @@ def update_student(
     program: str | None = None,
     contact: str | None = None,
     email: str | None = None,
-) -> tuple[bool, str]:
+):
     """
     Update an existing student's information.
     """
@@ -84,7 +84,7 @@ def update_student(
 
     save_student(student)
 
-    return True, "Student updated successfully."
+    return True, student
 
 def email_available(email: str) -> bool:
     """
