@@ -8,6 +8,10 @@ from services.lecturer_service import (
     find_lecturer,
     register_lecturer,
 )
+from services.module_service import (
+    find_module,
+    register_module,
+)
 
 main_menu_callback = None
 
@@ -106,19 +110,31 @@ def add_module():
     function_title = "Add a Module"
     print(f"---{function_title}---\n")
 
-    module_id = input("Enter the module ID: ")
+    while True:
+        module_id = input("Enter the module ID: ")
+
+        if find_module(module_id):
+            print("Module ID already exists. Please enter another ID.")
+            continue
+
+        break
+
     module_name = input("Enter the module name: ")
     course_id = input("Enter the course ID: ")
     lecturer_id = input("Enter the lecturer ID: ")
 
-    module = f"{module_id}, {module_name}, {course_id}, {lecturer_id}"
+    module_data = (
+        module_id,
+        module_name,
+        course_id,
+        lecturer_id,
+    )
 
+    success, message = register_module(module_data)
 
-    append_module(module)
-    print("Module added successfully.")
+    print(message)
 
-    # option to do it again or go back to menu
-    continue_menu(function_title, admin_module_menu,add_module)
+    continue_menu(function_title, admin_module_menu, add_module)
 
 # Removing Functions
 
