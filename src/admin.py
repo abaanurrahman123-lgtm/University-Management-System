@@ -12,6 +12,10 @@ from services.module_service import (
     find_module,
     register_module,
 )
+from services.student_service import (
+    find_student,
+    register_student,
+)
 
 main_menu_callback = None
 
@@ -48,11 +52,7 @@ def add_course():
     )
 
     success, message = register_course(course_data)
-
-    if success:
-        print(message)
-    else:
-        print(message)
+    print(message)
 
     # option to do it again or go back to menu
     continue_menu(function_title, admin_course_menu,add_course)
@@ -60,20 +60,45 @@ def add_course():
 def add_student():
     function_title = "Add a Student"
     print(f"---{function_title}---\n")
-    student_id = input("Enter the Student ID: ")
+
+    while True:
+        student_id = input("Enter the Student ID: ")
+
+        if find_student(student_id):
+            print("Student ID already exists. Please enter another ID.")
+            continue
+
+        break
+
     student_name = input("Enter the student name: ")
     student_course = input("Enter the student department: ")
     student_contact = input("Enter the student contact: ")
-    student_email = input("Enter the student email: ")
-    student_birthday = input("Enter the student birthday (YYYY-MM-DD format): ")
 
-    student = f"{student_id}, {student_name}, {student_course}, {student_contact}, {student_email}, {student_birthday}"
+    while True:
+        student_email = input("Enter the student email: ")
 
-    append_student(student)
-    print("Student added successfully.")
+        student_birthday = input("Enter the student birthday (YYYY-MM-DD format): ")
 
-    # option to do it again or go back to menu
-    continue_menu(function_title, admin_student_menu,add_student)
+        student_data = (
+            student_id,
+            student_name,
+            student_course,
+            student_contact,
+            student_email,
+            student_birthday,
+        )
+
+        success, message = register_student(student_data)
+
+        print(message)
+
+        if success:
+            break
+
+        if message != "Email already exists.":
+            break
+
+    continue_menu(function_title, admin_student_menu, add_student)
 
 
 def add_lecturer():
