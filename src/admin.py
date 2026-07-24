@@ -19,9 +19,10 @@ def add_course():
         course_id = input("Enter the course ID: ")
 
         if find_course(course_id):
-            print("Course ID already exists.")
-        else:
-            break
+            print("Course ID already exists. Please enter another ID.")
+            continue
+
+        break
     course_name = input("Enter the course name: ")
 
     while True:
@@ -40,7 +41,10 @@ def add_course():
 
     success, message = register_course(course_data)
 
-    print(message)
+    if success:
+        print(message)
+    else:
+        print(message)
 
     # option to do it again or go back to menu
     continue_menu(function_title, admin_course_menu,add_course)
