@@ -5,6 +5,7 @@ from services.student_service import (
     register_student,
     email_available,
     update_student,
+    get_all_students,
 )
 from services.student_service import register_student as register_student_service
 
@@ -94,11 +95,13 @@ def find_student_by_tp(tp_number):
 
 # Making a def function for displaying student details
 def student_display():
-    students = read_students()
+    students = get_all_students()
+
     if not students:
         print("There are no registered students.")
         return
-    print(f"Total students registered: {len(students)}")  # len(students) will count the number of students registered
+
+    print(f"Total students registered: {len(students)}")
 
 
 # def function for updating student details

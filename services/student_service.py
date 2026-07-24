@@ -4,6 +4,7 @@ from repositories.student_repository import (
     save_student,
     student_exists,
     email_exists,
+    get_all_students as get_all_students_repository,
 )
 
 from models.student_model import Student
@@ -91,3 +92,6 @@ def email_available(email: str) -> bool:
     Check whether an email is available for registration.
     """
     return not email_exists(email)
+
+def get_all_students():
+    return get_all_students_repository()
