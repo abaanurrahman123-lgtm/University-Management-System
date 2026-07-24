@@ -60,3 +60,17 @@ def course_exists(course_id: str) -> bool:
     Check if a course already exists.
     """
     return get_course_by_id(course_id) is not None
+
+def delete_course(course_id):
+    """
+    Delete a course by its ID.
+    """
+    courses = get_all_courses()
+
+    courses = [
+        course
+        for course in courses
+        if course.course_id != course_id
+    ]
+
+    save_all_courses(courses)

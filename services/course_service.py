@@ -5,6 +5,7 @@ from repositories.course_repository import (
     get_course_by_id,
     save_course,
     course_exists,
+    delete_course,
 )
 
 
@@ -60,3 +61,16 @@ def update_course(course_id, name=None, credit=None):
     save_course(course)
 
     return True, course
+
+def remove_course(course_id):
+    """
+    Remove a course.
+    """
+    course = get_course_by_id(course_id)
+
+    if course is None:
+        return False, "Course not found."
+
+    delete_course(course_id)
+
+    return True, "Course removed successfully."
