@@ -13,16 +13,14 @@ def get_all_modules() -> list[Module]:
     records = read_modules()
     return [Module.from_record(record) for record in records]
 
-
 def get_module_by_id(module_id: str) -> Module | None:
     """
     Find a module by its ID.
     """
     for module in get_all_modules():
-        if module.module_id == module_id:
+        if module.module_code == module_id:
             return module
     return None
-
 
 def save_all_modules(modules: list[Module]):
     """
@@ -40,20 +38,15 @@ def add_module(module: Module):
     modules.append(module)
     save_all_modules(modules)
 
-
 def save_module(updated_module: Module):
-    """
-    Update an existing module.
-    """
     modules = get_all_modules()
 
     for i, module in enumerate(modules):
-        if module.module_id == updated_module.module_id:
+        if module.module_code == updated_module.module_code:
             modules[i] = updated_module
             break
 
     save_all_modules(modules)
-
 
 def module_exists(module_id: str) -> bool:
     """
