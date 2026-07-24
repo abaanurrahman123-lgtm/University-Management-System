@@ -4,6 +4,10 @@ from services.course_service import (
     find_course,
     register_course,
 )
+from services.lecturer_service import (
+    find_lecturer,
+    register_lecturer,
+)
 
 main_menu_callback = None
 
@@ -71,16 +75,29 @@ def add_student():
 def add_lecturer():
     function_title = "Add a Lecturer"
     print(f"---{function_title}---\n")
-    lecturer_id = input("Enter the Lecturer ID: ")
+
+    while True:
+        lecturer_id = input("Enter the Lecturer ID: ")
+
+        if find_lecturer(lecturer_id):
+            print("Lecturer ID already exists. Please enter another ID.")
+            continue
+
+        break
+
     lecturer_name = input("Enter the lecturer's name: ")
     lecturer_contact = input("Enter the lecturer's contact: ")
 
-    lecturer = f"{lecturer_id}, {lecturer_name}, {lecturer_contact}"
+    lecturer_data = (
+        lecturer_id,
+        lecturer_name,
+        lecturer_contact,
+    )
 
-    append_lecturer(lecturer)
-    print("Lecturer added successfully.")
+    success, message = register_lecturer(lecturer_data)
 
-    # option to do it again or go back to menu
+    print(message)
+
     continue_menu(function_title, admin_lecturer_menu, add_lecturer)
 
 
