@@ -1,5 +1,9 @@
 from utils import *
 from file_manager import *
+from services.course_service import (
+    find_course,
+    register_course,
+)
 
 main_menu_callback = None
 
@@ -11,7 +15,13 @@ def add_course():
     function_title = "Add a Course"
     print(f"---{function_title}---\n")
 
-    course_id = input("Enter the course ID: ")
+    while True:
+        course_id = input("Enter the course ID: ")
+
+        if find_course(course_id):
+            print("Course ID already exists.")
+        else:
+            break
     course_name = input("Enter the course name: ")
 
     while True:
@@ -22,10 +32,15 @@ def add_course():
             print("Invalid input. Please enter a numeric value.")
             #this ensures that the user inputs a numeric value
 
-    course = f"{course_id}, {course_name}, {course_credit}"
+    course_data = (
+        course_id,
+        course_name,
+        course_credit,
+    )
 
-    append_course(course)
-    print("Course added successfully.")
+    success, message = register_course(course_data)
+
+    print(message)
 
     # option to do it again or go back to menu
     continue_menu(function_title, admin_course_menu,add_course)
