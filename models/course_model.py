@@ -5,7 +5,7 @@ from dataclasses import dataclass
 class Course:
     course_id: str
     course_name: str
-    course_credit: str
+    course_credit: int
 
     @classmethod
     def from_record(cls, record):

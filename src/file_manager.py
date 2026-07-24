@@ -57,7 +57,7 @@ def write_records(file_path, records):
     Save a list of records to a text file.
     """
     lines = [
-        ", ".join(record) + "\n"
+        ", ".join(map(str, record)) + "\n"
         for record in records
     ]
     write_lines(file_path, lines)
