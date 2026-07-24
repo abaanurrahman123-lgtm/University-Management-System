@@ -111,10 +111,10 @@ def add_module():
     print(f"---{function_title}---\n")
 
     while True:
-        module_id = input("Enter the module ID: ")
+        module_code = input("Enter the module code: ")
 
-        if find_module(module_id):
-            print("Module ID already exists. Please enter another ID.")
+        if find_module(module_code):
+            print("Module code already exists. Please enter another code.")
             continue
 
         break
@@ -124,7 +124,7 @@ def add_module():
     lecturer_id = input("Enter the lecturer ID: ")
 
     module_data = (
-        module_id,
+        module_code,
         module_name,
         course_id,
         lecturer_id,
