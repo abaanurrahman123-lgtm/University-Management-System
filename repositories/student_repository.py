@@ -2,7 +2,7 @@ from file_manager import read_students, write_students
 from models.student_model import Student
 
 
-def get_all_students():
+def get_all_students() -> list[Student]:
     """
     Return all students as Student objects.
     """
@@ -12,7 +12,7 @@ def get_all_students():
     ]
 
 
-def save_all_students(students):
+def save_all_students(students: list[Student]) -> None:
     """
     Save Student objects back to storage.
     """

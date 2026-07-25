@@ -12,7 +12,7 @@ class Course:
         return cls(
             course_id=record[0],
             course_name=record[1],
-            course_credit=record[2],
+            course_credit=(record[2]),
         )
 
     def to_record(self):
